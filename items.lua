@@ -46,3 +46,17 @@ core.register_craftitem("sunken_spoils:abyssil_ingot", {
 	groups = { craftitem = 1 },
 })
 
+
+-- Enchantment
+
+mcl_enchanting.register_enchantment("treasure_hunter", {
+	name = S("Treasure Hunter"),
+	max_level = 3,
+	primary = {fishing_rod = true},
+	weight = 2,
+	description = S("Increases rate of getting crates from fishing."),
+	power_range_table = {{15, 61}, {24, 71}, {33, 81}},
+	inv_tool_tab = true,
+	anvil_item_factor = 4,
+	anvil_book_factor = 2,
+})

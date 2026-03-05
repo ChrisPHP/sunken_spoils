@@ -1,4 +1,13 @@
+sunken_spoils = {}
+
 local S = core.get_translator(core.get_current_modname())
+
+sunken_spoils.loot_crates = {
+	{ itemstring = "sunken_spoils:wooden_crate", weight = 60 },
+	{ itemstring = "sunken_spoils:copper_crate", weight = 25 },
+	{ itemstring = "sunken_spoils:iron_crate", weight = 2 },
+	{ itemstring = "sunken_spoils:abyssil_crate", weight = 13 }
+}
 
 -- Crate logic
 
@@ -140,8 +149,34 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
     local player_name = player:get_player_name()
     local rod_name = rod:get_name()
 
+	local pr = PcgRandom(os.time() * math.random(1, 100))
+	local r = pr:next(1, 100)
+	local crate_values = {85, 84.8, 84.7, 84.5}
+	local treasure_hunter_value = math.min(mcl_enchanting.get_enchantment(rod, "trasure_hunter"), 3)
+	local index = treasure_hunter_value + 1
+	local crate_value = crate_values[index]
+
+	if r >= crate_value then
+		local items
+		local item
+		items = mcl_loot.get_loot({ items = sunken_spoils.loot_crates, stacks_min = 1, stacks_max = 1 }, pr)
+		if #items >= 1 then
+			item = ItemStack(items[1])
+		else
+			item = ItemStack()
+		end
+
+		local inv = player:get_inventory()
+		if inv:room_for_item("main", item) then
+			inv:add_item("main", item)
+		else
+			core.add_item(pos, item)
+		end
+	end
+	local val = core.get_item_group(rod_name, "rod_hardiness")
+
     -- your custom logic here
-    minetest.chat_send_player(player_name, "You caught: " .. rod_name)
+    minetest.chat_send_player(player_name, "You caught: " .. val)
 end)
 
 local function crate_fish(itemstack, player, pointed_thing)
