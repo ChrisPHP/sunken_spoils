@@ -12,21 +12,29 @@ sunken_spoils.loot_crates = {
 -- Crate logic
 
 local wooden_crate_contents = {
-	"mcl_core:iron_ingot",
-	"mcl_core:gold_ingot",
-	"mcl_copper:copper_ingot",
+	"mcl_trees:sapling_oak",
+	"mcl_trees:sapling_spruce",
+	"mcl_trees:sapling_birch",
+	"mcl_trees:sapling_acacia",
+	"mcl_trees:sapling_dark_oak",
+	"mcl_trees:sapling_jungle",
+	"mcl_core:coal_lump",
+	"mcl_farming:pumpkin_seeds",
+	"mcl_farming:beetroot_seeds",
+	"mcl_farming:carrot_item",
+	"mcl_farming:potato_item",
+	"mcl_farming:melon_seeds",
 }
 
 local copper_crate_contents = {
 	"mcl_core:iron_ingot",
-	"mcl_core:gold_ingot",
 	"mcl_copper:copper_ingot",
 }
 
 local iron_crate_contents = {
 	"mcl_core:iron_ingot",
 	"mcl_core:gold_ingot",
-	"mcl_copper:copper_ingot",
+	"mcl_core:diamond",
 }
 
 local abyssil_crate_contents = {
@@ -75,7 +83,7 @@ core.register_node("sunken_spoils:wooden_crate", {
 		"wooden_crate.png",
 	},
 	paramtype2 = "facedir",
-	groups = { handy = 1, axey = 1, deco_block = 1 },
+	groups = { handy = 1, axey = 1, deco_block = 1, crates = 1 },
 	is_ground_content = false,
 	sounds = mcl_sounds.node_sound_wood_defaults(),
 	_mcl_hardness = 2,
@@ -92,7 +100,7 @@ core.register_node("sunken_spoils:copper_crate", {
 		"copper_crate.png",
 	},
 	paramtype2 = "facedir",
-	groups = { handy = 1, axey = 1, deco_block = 1 },
+	groups = { handy = 1, axey = 1, deco_block = 1, crates = 2 },
 	is_ground_content = false,
 	sounds = mcl_sounds.node_sound_metal_defaults(),
 	_mcl_hardness = 2,
@@ -109,7 +117,7 @@ core.register_node("sunken_spoils:iron_crate", {
 		"iron_crate.png",
 	},
 	paramtype2 = "facedir",
-	groups = { handy = 1, axey = 1, deco_block = 1 },
+	groups = { handy = 1, axey = 1, deco_block = 1, crates = 3 },
 	is_ground_content = false,
 	sounds = mcl_sounds.node_sound_metal_defaults(),
 	_mcl_hardness = 2,
@@ -126,7 +134,7 @@ core.register_node("sunken_spoils:abyssil_crate", {
 		"abyssil_crate.png",
 	},
 	paramtype2 = "facedir",
-	groups = { handy = 1, axey = 1, deco_block = 1 },
+	groups = { handy = 1, axey = 1, deco_block = 1, crates = 4 },
 	is_ground_content = false,
 	sounds = mcl_sounds.node_sound_metal_defaults(),
 	_mcl_hardness = 2,
@@ -159,6 +167,7 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
 	if r >= crate_value then
 		local items
 		local item
+		local hardiness = core.get_item_group(rod_name, "rod_hardiness")
 		items = mcl_loot.get_loot({ items = sunken_spoils.loot_crates, stacks_min = 1, stacks_max = 1 }, pr)
 		if #items >= 1 then
 			item = ItemStack(items[1])
@@ -173,7 +182,6 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
 			core.add_item(pos, item)
 		end
 	end
-	local val = core.get_item_group(rod_name, "rod_hardiness")
 
     -- your custom logic here
     minetest.chat_send_player(player_name, "You caught: " .. val)

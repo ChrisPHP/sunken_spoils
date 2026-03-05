@@ -56,6 +56,7 @@ mcl_enchanting.register_enchantment("treasure_hunter", {
 	weight = 2,
 	description = S("Increases rate of getting crates from fishing."),
 	power_range_table = {{15, 61}, {24, 71}, {33, 81}},
+	treasure = true,
 	inv_tool_tab = true,
 	anvil_item_factor = 4,
 	anvil_book_factor = 2,
