@@ -29,18 +29,19 @@ local wooden_crate_contents = {
 local copper_crate_contents = {
     "mcl_core:iron_ingot",
     "mcl_copper:copper_ingot",
+    "mcl_copper:copper_nugget",
+    "mcl_copper:block",
 }
 
 local iron_crate_contents = {
     "mcl_core:iron_ingot",
     "mcl_core:gold_ingot",
     "mcl_core:diamond",
+    "mcl_core:lapis",
 }
 
 local abyssil_crate_contents = {
-    "mcl_core:iron_ingot",
-    "mcl_core:gold_ingot",
-    "mcl_copper:copper_ingot",
+    "sunken_spoils:abyssil_ingot",
 }
 
 local function open_crate(pos, node, player)
@@ -51,26 +52,47 @@ local function open_crate(pos, node, player)
         return
     end
 
-    local total_types = math.random(1, #wooden_crate_contents)
+    local crate_type = core.get_item_group(node.name, "crates")
+    local total_types
+    local items
+
+    if crate_type == 1 then
+        total_types = math.random(1, #wooden_crate_contents)
+    elseif crate_type == 2 then
+        total_types = math.random(1, #copper_crate_contents)
+    elseif crate_type == 3 then
+        total_types = math.random(1, #iron_crate_contents)
+    elseif crate_type == 4 then
+        total_types = math.random(1, #abyssil_crate_contents)
+    end
+
     local given = {}
 
     -- Drop items slightly above the crate position
     local drop_pos = { x = pos.x, y = pos.y + 0.5, z = pos.z }
 
     for i = 1, total_types do
-        local ingot = wooden_crate_contents[math.random(1, #wooden_crate_contents)]
+        if crate_type == 1 then
+            items = wooden_crate_contents[math.random(1, #wooden_crate_contents)]
+        elseif crate_type == 2 then
+            items = copper_crate_contents[math.random(1, #copper_crate_contents)]
+        elseif crate_type == 3 then
+            items = iron_crate_contents[math.random(1, #iron_crate_contents)]
+        elseif crate_type == 4 then
+            items = abyssil_crate_contents[math.random(1, #abyssil_crate_contents)]
+        end
         local count = math.random(1, 4)
-        local stack = ItemStack(ingot .. " " .. count)
+        local stack = ItemStack(items .. " " .. count)
         core.add_item(drop_pos, stack)
 
-        local desc = core.registered_items[ingot].description
+        local desc = core.registered_items[items].description
         table.insert(given, count .. "x " .. desc)
     end
 
     -- Remove the crate
     core.remove_node(pos)
     core.check_for_falling(pos)
-    core.chat_send_player(name, S("You opened a rusted crate and found: ") .. table.concat(given, ", "))
+    -- core.chat_send_player(name, S("You opened a rusted crate and found: ") .. table.concat(given, ", "))
 end
 
 core.register_node("sunken_spoils:wooden_crate", {
@@ -128,7 +150,7 @@ core.register_node("sunken_spoils:abyssil_crate", {
     description = S("Abyssil Crate"),
     _tt_help = S("Right-click to open and receive loot"),
     _doc_items_longdesc = S(
-    "An old abyssil crate filled with loot. Right-click to crack it open and claim its contents."),
+        "An old abyssil crate filled with loot. Right-click to crack it open and claim its contents."),
     tiles = {
         "abyssil_crate.png",
         "abyssil_crate.png",
@@ -185,7 +207,7 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
     end
 
     -- your custom logic here
-    minetest.chat_send_player(player_name, "You caught: " .. val)
+    -- minetest.chat_send_player(player_name, "You caught: " .. val)
 end)
 
 local function crate_fish(itemstack, player, pointed_thing)
@@ -199,7 +221,7 @@ core.register_tool("sunken_spoils:copper_fishing_rod", {
     _tt_help = S("Catches fish in water"),
     _doc_items_longdesc = S("Fishing rods can be used to catch fish."),
     _doc_items_usagehelp = S(
-    "Rightclick to launch the bobber. When it sinks right-click again to reel in an item. Who knows what you're going to catch?"),
+        "Rightclick to launch the bobber. When it sinks right-click again to reel in an item. Who knows what you're going to catch?"),
     groups = { tool = 2, fishing_rod = 1, rod_hardiness = 2, enchantability = 1, offhand_item = 1 },
     inventory_image = "copper_fishing_rod.png",
     wield_image = "copper_fishing_rod.png^[transformFY^[transformR90",
@@ -217,7 +239,7 @@ core.register_tool("sunken_spoils:iron_fishing_rod", {
     _tt_help = S("Catches fish in water"),
     _doc_items_longdesc = S("Fishing rods can be used to catch fish."),
     _doc_items_usagehelp = S(
-    "Rightclick to launch the bobber. When it sinks right-click again to reel in an item. Who knows what you're going to catch?"),
+        "Rightclick to launch the bobber. When it sinks right-click again to reel in an item. Who knows what you're going to catch?"),
     groups = { tool = 2, fishing_rod = 1, rod_hardiness = 3, enchantability = 1, offhand_item = 1 },
     inventory_image = "iron_fishing_rod.png",
     wield_image = "iron_fishing_rod.png^[transformFY^[transformR90",
@@ -235,7 +257,7 @@ core.register_tool("sunken_spoils:diamond_fishing_rod", {
     _tt_help = S("Catches fish in water"),
     _doc_items_longdesc = S("Fishing rods can be used to catch fish."),
     _doc_items_usagehelp = S(
-    "Rightclick to launch the bobber. When it sinks right-click again to reel in an item. Who knows what you're going to catch?"),
+        "Rightclick to launch the bobber. When it sinks right-click again to reel in an item. Who knows what you're going to catch?"),
     groups = { tool = 2, fishing_rod = 1, rod_hardiness = 4, enchantability = 1, offhand_item = 1 },
     inventory_image = "diamond_fishing_rod.png",
     wield_image = "diamond_fishing_rod.png^[transformFY^[transformR90",
@@ -253,7 +275,7 @@ core.register_tool("sunken_spoils:abyssil_fishing_rod", {
     _tt_help = S("Catches fish in water"),
     _doc_items_longdesc = S("Fishing rods can be used to catch fish."),
     _doc_items_usagehelp = S(
-    "Rightclick to launch the bobber. When it sinks right-click again to reel in an item. Who knows what you're going to catch?"),
+        "Rightclick to launch the bobber. When it sinks right-click again to reel in an item. Who knows what you're going to catch?"),
     groups = { tool = 2, fishing_rod = 1, rod_hardiness = 5, enchantability = 1, offhand_item = 1 },
     inventory_image = "abyssil_fishing_rod.png",
     wield_image = "abyssil_fishing_rod.png^[transformFY^[transformR90",
