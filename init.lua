@@ -11,18 +11,18 @@ sunken_spoils.loot_crates = {
 
 -- Crate logic
 
-local forest_crate_contents = {
-    "mcl_trees:sapling_oak",
-    "mcl_trees:sapling_spruce",
-    "mcl_trees:sapling_birch",
-    "mcl_trees:sapling_acacia",
-    "mcl_trees:sapling_dark_oak",
-    "mcl_trees:sapling_jungle",
-    "mcl_farming:pumpkin_seeds",
-    "mcl_farming:beetroot_seeds",
-    "mcl_farming:carrot_item",
-    "mcl_farming:potato_item",
-    "mcl_farming:melon_seeds",
+sunken_spoils.forest_crate_contents = {
+    { itemstring = "mcl_trees:sapling_oak",      weight = 10 },
+    { itemstring = "mcl_trees:sapling_spruce",   weight = 10 },
+    { itemstring = "mcl_trees:sapling_birch",    weight = 10 },
+    { itemstring = "mcl_trees:sapling_acacia",   weight = 10 },
+    { itemstring = "mcl_trees:sapling_dark_oak", weight = 10 },
+    { itemstring = "mcl_trees:sapling_jungle",   weight = 10 },
+    { itemstring = "mcl_farming:pumpkin_seeds",  weight = 10 },
+    { itemstring = "mcl_farming:beetroot_seeds", weight = 10 },
+    { itemstring = "mcl_farming:carrot_item",    weight = 10 },
+    { itemstring = "mcl_farming:potato_item",    weight = 10 },
+    { itemstring = "mcl_farming:melon_seeds",    weight = 10 },
 }
 
 sunken_spoils.wooden_crate_contents = {
@@ -64,18 +64,8 @@ local function open_crate(pos, node, player)
     end
 
     local crate_type = core.get_item_group(node.name, "crates")
-    local total_types
+    local total_types = math.random(2, 4)
     local items
-
-    if crate_type == 1 then
-        total_types = math.random(1, #sunken_spoils.wooden_crate_contents)
-    elseif crate_type == 2 then
-        total_types = math.random(1, #sunken_spoils.copper_crate_contents)
-    elseif crate_type == 3 then
-        total_types = math.random(1, #sunken_spoils.iron_crate_contents)
-    elseif crate_type == 4 then
-        total_types = math.random(1, #sunken_spoils.abyssil_crate_contents)
-    end
 
     local given = {}
 
