@@ -11,19 +11,28 @@ sunken_spoils.loot_crates = {
 
 -- Crate logic
 
-local wooden_crate_contents = {
+local forest_crate_contents = {
     "mcl_trees:sapling_oak",
     "mcl_trees:sapling_spruce",
     "mcl_trees:sapling_birch",
     "mcl_trees:sapling_acacia",
     "mcl_trees:sapling_dark_oak",
     "mcl_trees:sapling_jungle",
-    "mcl_core:coal_lump",
     "mcl_farming:pumpkin_seeds",
     "mcl_farming:beetroot_seeds",
     "mcl_farming:carrot_item",
     "mcl_farming:potato_item",
     "mcl_farming:melon_seeds",
+}
+
+local wooden_crate_contents = {
+    "mcl_core:coal_lump",
+    "mcl_mobitems:leather",
+    "mcl_raw_ores:raw_iron",
+    "mcl_copper:raw_copper",
+    "mcl_raw_ores:raw_gold",
+    "mcl_trees:tree_oak",
+    "mcl_core:sand",
 }
 
 local copper_crate_contents = {
@@ -36,12 +45,14 @@ local copper_crate_contents = {
 local iron_crate_contents = {
     "mcl_core:iron_ingot",
     "mcl_core:gold_ingot",
-    "mcl_core:diamond",
     "mcl_core:lapis",
+    "mcl_redstone:redstone",
 }
 
 local abyssil_crate_contents = {
     "sunken_spoils:abyssil_ingot",
+    "mcl_core:diamond",
+    "mcl_core:emerald",
 }
 
 local function open_crate(pos, node, player)
@@ -73,13 +84,13 @@ local function open_crate(pos, node, player)
 
     for i = 1, total_types do
         if crate_type == 1 then
-            items = wooden_crate_contents[math.random(1, #wooden_crate_contents)]
+            items = wooden_crate_contents[math.random(1, 3)]
         elseif crate_type == 2 then
-            items = copper_crate_contents[math.random(1, #copper_crate_contents)]
+            items = copper_crate_contents[math.random(1, 3)]
         elseif crate_type == 3 then
-            items = iron_crate_contents[math.random(1, #iron_crate_contents)]
+            items = iron_crate_contents[math.random(1, 3)]
         elseif crate_type == 4 then
-            items = abyssil_crate_contents[math.random(1, #abyssil_crate_contents)]
+            items = abyssil_crate_contents[math.random(1, 3)]
         end
         local count = math.random(1, 4)
         local stack = ItemStack(items .. " " .. count)
