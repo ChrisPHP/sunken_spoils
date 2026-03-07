@@ -5,8 +5,8 @@ local S = core.get_translator(core.get_current_modname())
 sunken_spoils.loot_crates = {
     { itemstring = "sunken_spoils:wooden_crate",  weight = 60 },
     { itemstring = "sunken_spoils:copper_crate",  weight = 25 },
-    { itemstring = "sunken_spoils:iron_crate",    weight = 2 },
-    { itemstring = "sunken_spoils:abyssil_crate", weight = 13 }
+    { itemstring = "sunken_spoils:iron_crate",    weight = 13 },
+    { itemstring = "sunken_spoils:abyssil_crate", weight = 2 }
 }
 
 -- Crate logic
@@ -25,34 +25,34 @@ local forest_crate_contents = {
     "mcl_farming:melon_seeds",
 }
 
-local wooden_crate_contents = {
-    "mcl_core:coal_lump",
-    "mcl_mobitems:leather",
-    "mcl_raw_ores:raw_iron",
-    "mcl_copper:raw_copper",
-    "mcl_raw_ores:raw_gold",
-    "mcl_trees:tree_oak",
-    "mcl_core:sand",
+sunken_spoils.wooden_crate_contents = {
+    { itemstring = "mcl_core:coal_lump",    weight = 14 },
+    { itemstring = "mcl_mobitems:leather",  weight = 14 },
+    { itemstring = "mcl_raw_ores:raw_iron", weight = 14 },
+    { itemstring = "mcl_copper:raw_copper", weight = 14 },
+    { itemstring = "mcl_raw_ores:raw_gold", weight = 14 },
+    { itemstring = "mcl_trees:tree_oak",    weight = 15 },
+    { itemstring = "mcl_core:sand",         weight = 15 },
 }
 
-local copper_crate_contents = {
-    "mcl_core:iron_ingot",
-    "mcl_copper:copper_ingot",
-    "mcl_copper:copper_nugget",
-    "mcl_copper:block",
+sunken_spoils.copper_crate_contents = {
+    { itemstring = "mcl_core:iron_ingot",      weight = 10 },
+    { itemstring = "mcl_copper:copper_ingot",  weight = 50 },
+    { itemstring = "mcl_copper:copper_nugget", weight = 20 },
+    { itemstring = "mcl_copper:block",         weight = 20 },
 }
 
-local iron_crate_contents = {
-    "mcl_core:iron_ingot",
-    "mcl_core:gold_ingot",
-    "mcl_core:lapis",
-    "mcl_redstone:redstone",
+sunken_spoils.iron_crate_contents = {
+    { itemstring = "mcl_core:iron_ingot",   weight = 50 },
+    { itemstring = "mcl_core:gold_ingot",   weight = 20 },
+    { itemstring = "mcl_core:lapis",        weight = 10 },
+    { itemstring = "mcl_redstone:redstone", weight = 20 },
 }
 
-local abyssil_crate_contents = {
-    "sunken_spoils:abyssil_ingot",
-    "mcl_core:diamond",
-    "mcl_core:emerald",
+sunken_spoils.abyssil_crate_contents = {
+    { itemstring = "sunken_spoils:abyssil_ingot", weight = 70 },
+    { itemstring = "mcl_core:diamond",            weight = 15 },
+    { itemstring = "mcl_core:emerald",            weight = 15 },
 }
 
 local function open_crate(pos, node, player)
@@ -68,13 +68,13 @@ local function open_crate(pos, node, player)
     local items
 
     if crate_type == 1 then
-        total_types = math.random(1, #wooden_crate_contents)
+        total_types = math.random(1, #sunken_spoils.wooden_crate_contents)
     elseif crate_type == 2 then
-        total_types = math.random(1, #copper_crate_contents)
+        total_types = math.random(1, #sunken_spoils.copper_crate_contents)
     elseif crate_type == 3 then
-        total_types = math.random(1, #iron_crate_contents)
+        total_types = math.random(1, #sunken_spoils.iron_crate_contents)
     elseif crate_type == 4 then
-        total_types = math.random(1, #abyssil_crate_contents)
+        total_types = math.random(1, #sunken_spoils.abyssil_crate_contents)
     end
 
     local given = {}
@@ -83,21 +83,19 @@ local function open_crate(pos, node, player)
     local drop_pos = { x = pos.x, y = pos.y + 0.5, z = pos.z }
 
     for i = 1, total_types do
+        local pr = PcgRandom(os.time() * math.random(1, 100))
         if crate_type == 1 then
-            items = wooden_crate_contents[math.random(1, 3)]
+            items = mcl_loot.get_loot({ items = sunken_spoils.wooden_crate_contents, stacks_min = 1, stacks_max = 3 }, pr)
         elseif crate_type == 2 then
-            items = copper_crate_contents[math.random(1, 3)]
+            items = mcl_loot.get_loot({ items = sunken_spoils.copper_crate_contents, stacks_min = 1, stacks_max = 3 }, pr)
         elseif crate_type == 3 then
-            items = iron_crate_contents[math.random(1, 3)]
+            items = mcl_loot.get_loot({ items = sunken_spoils.iron_crate_contents, stacks_min = 1, stacks_max = 3 }, pr)
         elseif crate_type == 4 then
-            items = abyssil_crate_contents[math.random(1, 3)]
+            items = mcl_loot.get_loot({ items = sunken_spoils.abyssil_crate_contents, stacks_min = 1, stacks_max = 3 },
+                pr)
         end
-        local count = math.random(1, 4)
-        local stack = ItemStack(items .. " " .. count)
-        core.add_item(drop_pos, stack)
-
-        local desc = core.registered_items[items].description
-        table.insert(given, count .. "x " .. desc)
+        local item = ItemStack(items[1])
+        core.add_item(drop_pos, item)
     end
 
     -- Remove the crate
@@ -217,7 +215,6 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
         end
     end
 
-    -- your custom logic here
     -- minetest.chat_send_player(player_name, "You caught: " .. val)
 end)
 
