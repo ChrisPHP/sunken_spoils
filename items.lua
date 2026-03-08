@@ -37,7 +37,7 @@ core.register_craft({
     }
 })
 
--- New Ingot
+-- Abyssil Tools
 
 core.register_craftitem("sunken_spoils:abyssil_ingot", {
     description = S("Abyssil Ingot"),

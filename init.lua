@@ -26,11 +26,11 @@ sunken_spoils.forest_crate_contents = {
 }
 
 sunken_spoils.wooden_crate_contents = {
-    { itemstring = "mcl_core:coal_lump",    weight = 14 },
+    { itemstring = "mcl_core:clay",         weight = 14 },
     { itemstring = "mcl_mobitems:leather",  weight = 14 },
     { itemstring = "mcl_raw_ores:raw_iron", weight = 14 },
     { itemstring = "mcl_copper:raw_copper", weight = 14 },
-    { itemstring = "mcl_raw_ores:raw_gold", weight = 14 },
+    { itemstring = "mcl_core:coal_lump",    weight = 14 },
     { itemstring = "mcl_trees:tree_oak",    weight = 15 },
     { itemstring = "mcl_core:sand",         weight = 15 },
 }
@@ -68,7 +68,6 @@ local function open_crate(pos, node, player)
     local items
 
     local given = {}
-
     -- Drop items slightly above the crate position
     local drop_pos = { x = pos.x, y = pos.y + 0.5, z = pos.z }
 
@@ -320,3 +319,4 @@ core.register_tool("sunken_spoils:abyssil_fishing_rod", {
 })
 
 dofile(core.get_modpath(core.get_current_modname()) .. "/items.lua")
+dofile(core.get_modpath(core.get_current_modname()) .. "/register.lua")
