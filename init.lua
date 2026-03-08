@@ -5,8 +5,8 @@ local S = core.get_translator(core.get_current_modname())
 sunken_spoils.loot_crates = {
     { itemstring = "sunken_spoils:wooden_crate",  weight = 60 },
     { itemstring = "sunken_spoils:copper_crate",  weight = 25 },
-    { itemstring = "sunken_spoils:iron_crate",    weight = 13 },
-    { itemstring = "sunken_spoils:abyssil_crate", weight = 2 }
+    { itemstring = "sunken_spoils:iron_crate",    weight = 10 },
+    { itemstring = "sunken_spoils:abyssil_crate", weight = 5 }
 }
 
 -- Crate logic
@@ -84,6 +84,7 @@ local function open_crate(pos, node, player)
             items = mcl_loot.get_loot({ items = sunken_spoils.abyssil_crate_contents, stacks_min = 1, stacks_max = 3 },
                 pr)
         end
+
         local item = ItemStack(items[1])
         core.add_item(drop_pos, item)
     end
@@ -190,7 +191,39 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
         local items
         local item
         local hardiness = core.get_item_group(rod_name, "rod_hardiness")
-        items = mcl_loot.get_loot({ items = sunken_spoils.loot_crates, stacks_min = 1, stacks_max = 1 }, pr)
+        local crate_weights = sunken_spoils.loot_crates
+
+        if hardiness == 2 then
+            crate_weights = {
+                { itemstring = "sunken_spoils:wooden_crate",  weight = 40 },
+                { itemstring = "sunken_spoils:copper_crate",  weight = 45 },
+                { itemstring = "sunken_spoils:iron_crate",    weight = 10 },
+                { itemstring = "sunken_spoils:abyssil_crate", weight = 5 }
+            }
+        elseif hardiness == 3 then
+            crate_weights = {
+                { itemstring = "sunken_spoils:copper_crate",  weight = 20 },
+                { itemstring = "sunken_spoils:wooden_crate",  weight = 30 },
+                { itemstring = "sunken_spoils:iron_crate",    weight = 40 },
+                { itemstring = "sunken_spoils:abyssil_crate", weight = 10 }
+            }
+        elseif hardiness == 4 then
+            crate_weights = {
+                { itemstring = "sunken_spoils:iron_crate",    weight = 20 },
+                { itemstring = "sunken_spoils:copper_crate",  weight = 25 },
+                { itemstring = "sunken_spoils:wooden_crate",  weight = 40 },
+                { itemstring = "sunken_spoils:abyssil_crate", weight = 15 }
+            }
+        elseif hardiness == 5 then
+            crate_weights = {
+                { itemstring = "sunken_spoils:abyssil_crate", weight = 20 },
+                { itemstring = "sunken_spoils:wooden_crate",  weight = 20 },
+                { itemstring = "sunken_spoils:copper_crate",  weight = 30 },
+                { itemstring = "sunken_spoils:iron_crate",    weight = 30 }
+            }
+        end
+
+        items = mcl_loot.get_loot({ items = crate_weights, stacks_min = 1, stacks_max = 1 }, pr)
         if #items >= 1 then
             item = ItemStack(items[1])
         else
