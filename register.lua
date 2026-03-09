@@ -12,7 +12,7 @@ mcl_tools.register_set("abyssil", {
 }, {
     ["pick"] = {
         description = S("Abyssil Pickaxe"),
-        inventory_image = "default_tool_diamondpick.png",
+        inventory_image = "sunken_spoils_tool_abyssilpick.png",
         tool_capabilities = {
             full_punch_interval = 0.83333333,
             damage_groups = { fleshy = 6 }
@@ -20,7 +20,7 @@ mcl_tools.register_set("abyssil", {
     },
     ["shovel"] = {
         description = S("Abyssil Shovel"),
-        inventory_image = "default_tool_diamondshovel.png",
+        inventory_image = "sunken_spoils_tool_abyssilshovel.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 6 }
@@ -28,7 +28,7 @@ mcl_tools.register_set("abyssil", {
     },
     ["sword"] = {
         description = S("Abyssil Sword"),
-        inventory_image = "default_tool_diamondsword.png",
+        inventory_image = "sunken_spoils_tool_abyssilsword.png",
         tool_capabilities = {
             full_punch_interval = 0.625,
             damage_groups = { fleshy = 8 }
@@ -36,7 +36,7 @@ mcl_tools.register_set("abyssil", {
     },
     ["axe"] = {
         description = S("Abyssil Axe"),
-        inventory_image = "default_tool_diamondaxe.png",
+        inventory_image = "sunken_spoils_tool_abyssilaxe.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 9 }
@@ -63,7 +63,7 @@ mcl_armor.register_set({
     },
     groups = { fire_immune = 1 },
     toughness = 2,
-    repair_material = "mcl_nether:abyssil_ingot",
+    repair_material = "sunken_spoils:abyssil_ingot",
     sound_equip = "mcl_armor_equip_diamond",
     sound_unequip = "mcl_armor_unequip_diamond",
 })
