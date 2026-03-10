@@ -6,53 +6,93 @@ sunken_spoils.loot_crates = {
     { itemstring = "sunken_spoils:wooden_crate",  weight = 60 },
     { itemstring = "sunken_spoils:copper_crate",  weight = 25 },
     { itemstring = "sunken_spoils:iron_crate",    weight = 10 },
-    { itemstring = "sunken_spoils:abyssil_crate", weight = 5 }
+    { itemstring = "sunken_spoils:abyssil_crate", weight = 5 },
+    { itemstring = "sunken_spoils:forest_crate" }
 }
+
+local hardiness_weights = {
+    [2] = { 40, 45, 10,  5 },
+    [3] = { 30, 20, 40, 10 },
+    [4] = { 40, 25, 20, 15 },
+    [5] = { 20, 20, 30, 30 },
+}
+
+local WORN = { wear_min = 49144, wear_max = 65535 }
+
+
+local function enchanted(itemstring, level)
+    level = 30
+    return {
+        itemstring = itemstring,
+        wear_min = WORN.wear_min,
+        wear_max = WORN.wear_max,
+        func = function(stack, pr)
+            mcl_enchanting.enchant_randomly(stack, level, true, false, false, pr)
+        end
+    }
+end
 
 -- Crate logic
 
 sunken_spoils.forest_crate_contents = {
-    { itemstring = "mcl_trees:sapling_oak",      weight = 10 },
-    { itemstring = "mcl_trees:sapling_spruce",   weight = 10 },
-    { itemstring = "mcl_trees:sapling_birch",    weight = 10 },
-    { itemstring = "mcl_trees:sapling_acacia",   weight = 10 },
-    { itemstring = "mcl_trees:sapling_dark_oak", weight = 10 },
-    { itemstring = "mcl_trees:sapling_jungle",   weight = 10 },
-    { itemstring = "mcl_farming:pumpkin_seeds",  weight = 10 },
-    { itemstring = "mcl_farming:beetroot_seeds", weight = 10 },
-    { itemstring = "mcl_farming:carrot_item",    weight = 10 },
-    { itemstring = "mcl_farming:potato_item",    weight = 10 },
-    { itemstring = "mcl_farming:melon_seeds",    weight = 10 },
+    { itemstring = "mcl_trees:sapling_oak" },
+    { itemstring = "mcl_trees:sapling_spruce" },
+    { itemstring = "mcl_trees:sapling_birch" },
+    { itemstring = "mcl_trees:sapling_acacia" },
+    { itemstring = "mcl_trees:sapling_dark_oak" },
+    { itemstring = "mcl_trees:sapling_jungle" },
+    { itemstring = "mcl_farming:pumpkin_seeds" },
+    { itemstring = "mcl_farming:beetroot_seeds" },
+    { itemstring = "mcl_farming:carrot_item" },
+    { itemstring = "mcl_farming:potato_item" },
+    { itemstring = "mcl_farming:melon_seeds" },
 }
 
 sunken_spoils.wooden_crate_contents = {
-    { itemstring = "mcl_core:clay",         weight = 14 },
-    { itemstring = "mcl_mobitems:leather",  weight = 14 },
-    { itemstring = "mcl_raw_ores:raw_iron", weight = 14 },
-    { itemstring = "mcl_copper:raw_copper", weight = 14 },
-    { itemstring = "mcl_core:coal_lump",    weight = 14 },
-    { itemstring = "mcl_trees:tree_oak",    weight = 15 },
-    { itemstring = "mcl_core:sand",         weight = 15 },
+    { itemstring = "mcl_core:clay" },
+    { itemstring = "mcl_mobitems:leather"  },
+    { itemstring = "mcl_raw_ores:raw_iron" },
+    { itemstring = "mcl_copper:raw_copper"},
+    { itemstring = "mcl_core:coal_lump" },
+    { itemstring = "mcl_trees:tree_oak"},
+    { itemstring = "mcl_core:sand" },
 }
 
 sunken_spoils.copper_crate_contents = {
-    { itemstring = "mcl_core:iron_ingot",      weight = 10 },
-    { itemstring = "mcl_copper:copper_ingot",  weight = 50 },
-    { itemstring = "mcl_copper:copper_nugget", weight = 20 },
-    { itemstring = "mcl_copper:block",         weight = 20 },
+    { itemstring = "mcl_copper:copper_ingot",  weight = 45 },
+    { itemstring = "mcl_copper:copper_nugget", weight = 45 },
+    enchanted("mcl_tools:pick_copper"),
+    enchanted("mcl_tools:shovel_copper"),
+    enchanted("mcl_tools:axe_copper"),
+    enchanted("mcl_tools:sword_copper"),
+    enchanted("sunken_spoils:copper_fishing_rod"),
+    enchanted("mcl_armor:helmet_copper"),
+    enchanted("mcl_armor:chestplate_copper"),
+    enchanted("mcl_armor:leggings_copper"),
+    enchanted("mcl_armor:boots_copper"),
 }
 
 sunken_spoils.iron_crate_contents = {
-    { itemstring = "mcl_core:iron_ingot",   weight = 50 },
-    { itemstring = "mcl_core:gold_ingot",   weight = 20 },
-    { itemstring = "mcl_core:lapis",        weight = 10 },
-    { itemstring = "mcl_redstone:redstone", weight = 20 },
+    { itemstring = "mcl_core:iron_ingot" },
+    { itemstring = "mcl_core:gold_ingot" },
+    { itemstring = "mcl_core:lapis" },
+    { itemstring = "mcl_redstone:redstone" },
+    enchanted("mcl_tools:pick_iron"),
+    enchanted("mcl_tools:shovel_iron"),
+    enchanted("mcl_tools:axe_iron"),
+    enchanted("mcl_tools:sword_iron"),
+    enchanted("sunken_spoils:iron_fishing_rod"),
+    enchanted("mcl_armor:helmet_iron"),
+    enchanted("mcl_armor:chestplate_iron"),
+    enchanted("mcl_armor:leggings_iron"),
+    enchanted("mcl_armor:boots_iron"),
 }
 
 sunken_spoils.abyssil_crate_contents = {
     { itemstring = "sunken_spoils:abyssil_ingot", weight = 70 },
-    { itemstring = "mcl_core:diamond",            weight = 15 },
-    { itemstring = "mcl_core:emerald",            weight = 15 },
+    { itemstring = "mcl_core:diamond" },
+    { itemstring = "mcl_core:emerald" },
+    { itemstring = "sunken_spoils:pick_abyssil", wear_min = 6554, wear_max = 65535 },
 }
 
 local function open_crate(pos, node, player)
@@ -81,6 +121,9 @@ local function open_crate(pos, node, player)
             items = mcl_loot.get_loot({ items = sunken_spoils.iron_crate_contents, stacks_min = 1, stacks_max = 3 }, pr)
         elseif crate_type == 4 then
             items = mcl_loot.get_loot({ items = sunken_spoils.abyssil_crate_contents, stacks_min = 1, stacks_max = 3 },
+                pr)
+        elseif crate_type == 5 then
+            items = mcl_loot.get_loot({ items = sunken_spoils.forest_crate_contents, stacks_min = 1, stacks_max = 3 },
                 pr)
         end
 
@@ -163,6 +206,24 @@ core.register_node("sunken_spoils:abyssil_crate", {
     on_rightclick = open_crate
 })
 
+core.register_node("sunken_spoils:forest_crate", {
+    description = S("Forest Crate"),
+    _tt_help = S("Right-click to open and receive loot"),
+    _doc_items_longdesc = S(
+        "A algae covered crate filled with loot. Right-click to crack it open and claim its contents."),
+    tiles = {
+        "forest_crate.png",
+        "forest_crate.png",
+        "forest_crate.png",
+    },
+    paramtype2 = "facedir",
+    groups = { handy = 1, axey = 1, deco_block = 1, crates = 5 },
+    is_ground_content = false,
+    sounds = mcl_sounds.node_sound_wood_defaults(),
+    _mcl_hardness = 2,
+    on_rightclick = open_crate
+})
+
 -- Fishing rod logic
 
 local fish = minetest.registered_items["mcl_fishing:fishing_rod"].on_place
@@ -174,6 +235,16 @@ if def then
     minetest.override_item("mcl_fishing:fishing_rod", { groups = groups })
 end
 
+local function build_crate_weights(w)
+    return {
+        { itemstring = "sunken_spoils:wooden_crate",  weight = w[1] },
+        { itemstring = "sunken_spoils:copper_crate",  weight = w[2] },
+        { itemstring = "sunken_spoils:iron_crate",    weight = w[3] },
+        { itemstring = "sunken_spoils:abyssil_crate", weight = w[4] },
+        { itemstring = "sunken_spoils:forest_crate" },
+    }
+end
+
 mcl_fishing.register_on_catch(function(rod, player, pos, item)
     local item_name = item:get_name()
     local player_name = player:get_player_name()
@@ -181,8 +252,8 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
 
     local pr = PcgRandom(os.time() * math.random(1, 100))
     local r = pr:next(1, 100)
-    local crate_values = { 85, 84.8, 84.7, 84.5 }
-    local treasure_hunter_value = math.min(mcl_enchanting.get_enchantment(rod, "trasure_hunter"), 3)
+    local crate_values = { 90, 85, 80, 75 }
+    local treasure_hunter_value = math.min(mcl_enchanting.get_enchantment(rod, "treasure_hunter"), 3)
     local index = treasure_hunter_value + 1
     local crate_value = crate_values[index]
 
@@ -190,37 +261,7 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
         local items
         local item
         local hardiness = core.get_item_group(rod_name, "rod_hardiness")
-        local crate_weights = sunken_spoils.loot_crates
-
-        if hardiness == 2 then
-            crate_weights = {
-                { itemstring = "sunken_spoils:wooden_crate",  weight = 40 },
-                { itemstring = "sunken_spoils:copper_crate",  weight = 45 },
-                { itemstring = "sunken_spoils:iron_crate",    weight = 10 },
-                { itemstring = "sunken_spoils:abyssil_crate", weight = 5 }
-            }
-        elseif hardiness == 3 then
-            crate_weights = {
-                { itemstring = "sunken_spoils:copper_crate",  weight = 20 },
-                { itemstring = "sunken_spoils:wooden_crate",  weight = 30 },
-                { itemstring = "sunken_spoils:iron_crate",    weight = 40 },
-                { itemstring = "sunken_spoils:abyssil_crate", weight = 10 }
-            }
-        elseif hardiness == 4 then
-            crate_weights = {
-                { itemstring = "sunken_spoils:iron_crate",    weight = 20 },
-                { itemstring = "sunken_spoils:copper_crate",  weight = 25 },
-                { itemstring = "sunken_spoils:wooden_crate",  weight = 40 },
-                { itemstring = "sunken_spoils:abyssil_crate", weight = 15 }
-            }
-        elseif hardiness == 5 then
-            crate_weights = {
-                { itemstring = "sunken_spoils:abyssil_crate", weight = 20 },
-                { itemstring = "sunken_spoils:wooden_crate",  weight = 20 },
-                { itemstring = "sunken_spoils:copper_crate",  weight = 30 },
-                { itemstring = "sunken_spoils:iron_crate",    weight = 30 }
-            }
-        end
+        local crate_weights = weights and build_crate_weights(weights) or sunken_spoils.loot_crates
 
         items = mcl_loot.get_loot({ items = crate_weights, stacks_min = 1, stacks_max = 1 }, pr)
         if #items >= 1 then
