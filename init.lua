@@ -2,6 +2,11 @@ sunken_spoils = {}
 
 local S = core.get_translator(core.get_current_modname())
 
+minetest.after(0, function()
+    mcl_beacons.register_beaconfuel("sunken_spoils:abyssil_ingot")
+    mcl_beacons.register_beaconblock("sunken_spoils:abyssilblock")
+end)
+
 sunken_spoils.loot_crates = {
     { itemstring = "sunken_spoils:wooden_crate",  weight = 60 },
     { itemstring = "sunken_spoils:copper_crate",  weight = 25 },
@@ -342,7 +347,7 @@ core.register_tool("sunken_spoils:diamond_fishing_rod", {
 })
 
 core.register_tool("sunken_spoils:abyssil_fishing_rod", {
-    description = S("Iron Fishing Rod"),
+    description = S("Abyssil Fishing Rod"),
     _tt_help = S("Catches fish in water"),
     _doc_items_longdesc = S("Fishing rods can be used to catch fish."),
     _doc_items_usagehelp = S(

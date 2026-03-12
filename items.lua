@@ -47,6 +47,34 @@ core.register_craftitem("sunken_spoils:abyssil_ingot", {
 })
 
 
+core.register_node("sunken_spoils:abyssilblock", {
+	description = S("Abyssil Block"),
+	_doc_items_longdesc = S("Abyssil block a tough deep sea metal block and can be made of 9 abyssil ingots."),
+	stack_max = 64,
+	tiles = {"sunken_spoils_abyssilblock.png"},
+	is_ground_content = true,
+	groups = { pickaxey=4, building_block=1, material_stone=1, xp = 0, fire_immune=1 },
+	drop = "sunken_spoils:abyssilblock",
+	groups = {pickaxey=4, building_block=1},
+	sounds = mcl_sounds.node_sound_metal_defaults(),
+	_mcl_blast_resistance = 6,
+	_mcl_hardness = 5,
+})
+
+core.register_craft({
+	output = "sunken_spoils:abyssilblock",
+	recipe = {
+		{"sunken_spoils:abyssil_ingot", "sunken_spoils:abyssil_ingot", "sunken_spoils:abyssil_ingot"},
+		{"sunken_spoils:abyssil_ingot", "sunken_spoils:abyssil_ingot", "sunken_spoils:abyssil_ingot"},
+		{"sunken_spoils:abyssil_ingot", "sunken_spoils:abyssil_ingot", "sunken_spoils:abyssil_ingot"},
+	}
+})
+
+core.register_craft({
+    output = "sunken_spoils:abyssil_ingot 9",
+    recipe = { { "sunken_spoils:abyssilblock" } }
+})
+
 -- Enchantment
 
 mcl_enchanting.register_enchantment("treasure_hunter", {
