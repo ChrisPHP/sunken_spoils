@@ -2,27 +2,30 @@ sunken_spoils = {}
 
 local S = core.get_translator(core.get_current_modname())
 
+
+-- Add abyssil block and ingot to support beacons
 minetest.after(0, function()
     mcl_beacons.register_beaconfuel("sunken_spoils:abyssil_ingot")
     mcl_beacons.register_beaconblock("sunken_spoils:abyssilblock")
 end)
 
 sunken_spoils.loot_crates = {
-    { itemstring = "sunken_spoils:wooden_crate",  weight = 60 },
+    { itemstring = "sunken_spoils:wooden_crate",  weight = 30 },
     { itemstring = "sunken_spoils:copper_crate",  weight = 25 },
-    { itemstring = "sunken_spoils:iron_crate",    weight = 10 },
+    { itemstring = "sunken_spoils:iron_crate",    weight = 20 },
+    { itemstring = "sunken_spoils:diamond_crate", weight = 10 },
     { itemstring = "sunken_spoils:abyssil_crate", weight = 5 },
     { itemstring = "sunken_spoils:forest_crate" }
 }
 
 local hardiness_weights = {
-    [2] = { 40, 45, 10,  5 },
-    [3] = { 30, 20, 40, 10 },
-    [4] = { 40, 25, 20, 15 },
-    [5] = { 20, 20, 30, 30 },
+    [2] = { 40, 45, 10,  3,  2 },
+    [3] = { 30, 20, 40,  7,  3 },
+    [4] = { 25, 20, 30, 15,  5 },
+    [5] = { 15, 15, 25, 30, 15 },
 }
 
-local WORN = { wear_min = 49144, wear_max = 65535 }
+local WORN = { wear_min = 0 , wear_max = 21845 }
 
 
 local function enchanted(itemstring, level)
@@ -93,11 +96,32 @@ sunken_spoils.iron_crate_contents = {
     enchanted("mcl_armor:boots_iron"),
 }
 
+sunken_spoils.diamond_crate_contents = {
+    { itemstring = "mcl_core:diamond", weight = 50 },
+    { itemstring = "mcl_core:emerald", weight = 50 },
+    enchanted("mcl_tools:pick_diamond"),
+    enchanted("mcl_tools:shovel_diamond"),
+    enchanted("mcl_tools:axe_diamond"),
+    enchanted("mcl_tools:sword_diamond"),
+    enchanted("sunken_spoils:diamond_fishing_rod"),
+    enchanted("mcl_armor:helmet_diamond"),
+    enchanted("mcl_armor:chestplate_diamond"),
+    enchanted("mcl_armor:leggings_diamond"),
+    enchanted("mcl_armor:boots_diamond"),
+}
+
+
 sunken_spoils.abyssil_crate_contents = {
-    { itemstring = "sunken_spoils:abyssil_ingot", weight = 70 },
-    { itemstring = "mcl_core:diamond" },
-    { itemstring = "mcl_core:emerald" },
-    { itemstring = "sunken_spoils:pick_abyssil", wear_min = 6554, wear_max = 65535 },
+    { itemstring = "sunken_spoils:abyssil_ingot", weight = 90 },
+    enchanted("sunken_spoils:pick_abyssil"),
+    enchanted("sunken_spoils:shovel_abyssil"),
+    enchanted("sunken_spoils:axe_abyssil"),
+    enchanted("sunken_spoils:sword_abyssil"),
+    enchanted("sunken_spoils:abyssil_fishing_rod"),
+    enchanted("sunken_spoils:helmet_abyssil"),
+    enchanted("sunken_spoils:chestplate_abyssil"),
+    enchanted("sunken_spoils:leggings_abyssil"),
+    enchanted("sunken_spoils:boots_abyssil"),
 }
 
 local function open_crate(pos, node, player)
@@ -125,9 +149,12 @@ local function open_crate(pos, node, player)
         elseif crate_type == 3 then
             items = mcl_loot.get_loot({ items = sunken_spoils.iron_crate_contents, stacks_min = 1, stacks_max = 3 }, pr)
         elseif crate_type == 4 then
-            items = mcl_loot.get_loot({ items = sunken_spoils.abyssil_crate_contents, stacks_min = 1, stacks_max = 3 },
+            items = mcl_loot.get_loot({ items = sunken_spoils.diamond_crate_contents, stacks_min = 1, stacks_max = 3 },
                 pr)
         elseif crate_type == 5 then
+            items = mcl_loot.get_loot({ items = sunken_spoils.abyssil_crate_contents, stacks_min = 1, stacks_max = 3 },
+                pr)
+        elseif crate_type == 6 then
             items = mcl_loot.get_loot({ items = sunken_spoils.forest_crate_contents, stacks_min = 1, stacks_max = 3 },
                 pr)
         end
@@ -193,6 +220,23 @@ core.register_node("sunken_spoils:iron_crate", {
     on_rightclick = open_crate
 })
 
+core.register_node("sunken_spoils:diamond_crate", {
+    description = S("Diamond Crate"),
+    _tt_help = S("Right-click to open and receive loot"),
+    _doc_items_longdesc = S("An old Diamond crate filled with loot. Right-click to crack it open and claim its contents."),
+    tiles = {
+        "diamond_crate.png",
+        "diamond_crate.png",
+        "diamond_crate.png",
+    },
+    paramtype2 = "facedir",
+    groups = { handy = 1, axey = 1, deco_block = 1, crates = 4 },
+    is_ground_content = false,
+    sounds = mcl_sounds.node_sound_glass_defaults(),
+    _mcl_hardness = 2,
+    on_rightclick = open_crate
+})
+
 core.register_node("sunken_spoils:abyssil_crate", {
     description = S("Abyssil Crate"),
     _tt_help = S("Right-click to open and receive loot"),
@@ -204,7 +248,7 @@ core.register_node("sunken_spoils:abyssil_crate", {
         "abyssil_crate.png",
     },
     paramtype2 = "facedir",
-    groups = { handy = 1, axey = 1, deco_block = 1, crates = 4 },
+    groups = { handy = 1, axey = 1, deco_block = 1, crates = 5 },
     is_ground_content = false,
     sounds = mcl_sounds.node_sound_metal_defaults(),
     _mcl_hardness = 2,
@@ -222,7 +266,7 @@ core.register_node("sunken_spoils:forest_crate", {
         "forest_crate.png",
     },
     paramtype2 = "facedir",
-    groups = { handy = 1, axey = 1, deco_block = 1, crates = 5 },
+    groups = { handy = 1, axey = 1, deco_block = 1, crates = 6 },
     is_ground_content = false,
     sounds = mcl_sounds.node_sound_wood_defaults(),
     _mcl_hardness = 2,
@@ -234,6 +278,7 @@ core.register_node("sunken_spoils:forest_crate", {
 local fish = minetest.registered_items["mcl_fishing:fishing_rod"].on_place
 local def = minetest.registered_items["mcl_fishing:fishing_rod"]
 
+-- Add the new rod_hardiness group to default fishing rod
 if def then
     local groups = table.copy(def.groups)
     groups.rod_hardiness = 1
@@ -245,7 +290,8 @@ local function build_crate_weights(w)
         { itemstring = "sunken_spoils:wooden_crate",  weight = w[1] },
         { itemstring = "sunken_spoils:copper_crate",  weight = w[2] },
         { itemstring = "sunken_spoils:iron_crate",    weight = w[3] },
-        { itemstring = "sunken_spoils:abyssil_crate", weight = w[4] },
+        { itemstring = "sunken_spoils:diamond_crate", weight = w[4] },
+        { itemstring = "sunken_spoils:abyssil_crate", weight = w[5] },
         { itemstring = "sunken_spoils:forest_crate" },
     }
 end
