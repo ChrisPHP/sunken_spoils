@@ -2,6 +2,7 @@ sunken_spoils = {}
 
 local S = core.get_translator(core.get_current_modname())
 
+mcl_item_entity.register_pickup_achievement("sunken_spoils:abyssil_ingot", "sunken_spoils:FromTheDepths")
 
 -- Add abyssil block and ingot to support beacons
 minetest.after(0, function()
@@ -327,6 +328,7 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
         else
             core.add_item(pos, item)
         end
+		awards.unlock(player:get_player_name(), "sunken_spoils:LootCrates")
     end
 
     -- minetest.chat_send_player(player_name, "You caught: " .. val)
