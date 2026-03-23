@@ -111,7 +111,7 @@ awards.register_achievement("sunken_spoils:DiamondRod", {
 
 awards.register_achievement("sunken_spoils:ToughestRod", {
     title = S("Toughest Rod Out There"),
-    description = S("Craft a diamond fishing rod using a stick, two abyssil ingots and two pieces of string."),
+    description = S("Craft a abyssil fishing rod using a stick, two abyssil ingots and two pieces of string."),
     icon = "abyssil_fishing_rod.png",
     trigger = {
 		type = "craft",
