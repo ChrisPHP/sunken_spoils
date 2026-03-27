@@ -5,9 +5,9 @@ local S = core.get_translator(core.get_current_modname())
 core.register_craft({
     output = "sunken_spoils:copper_fishing_rod",
     recipe = {
-        { "",               "",                      "mcl_core:copper_ingot" },
-        { "",               "mcl_core:copper_ingot", "mcl_mobitems:string" },
-        { "mcl_core:stick", "",                      "mcl_mobitems:string" },
+        { "",               "",                        "mcl_copper:copper_ingot" },
+        { "",               "mcl_copper:copper_ingot", "mcl_mobitems:string" },
+        { "mcl_core:stick", "",                        "mcl_mobitems:string" },
     }
 })
 
@@ -77,7 +77,7 @@ core.register_craft({
 
 -- Enchantment
 
-mcl_enchanting.register_enchantment("treasure_hunter", {
+local thunter_def = {
     name = S("Treasure Hunter"),
     max_level = 3,
     primary = { fishing_rod = true },
@@ -88,4 +88,19 @@ mcl_enchanting.register_enchantment("treasure_hunter", {
     inv_tool_tab = true,
     anvil_item_factor = 4,
     anvil_book_factor = 2,
-})
+}
+local enchantment_default = {
+    max_level = 1,
+    primary = {},
+    secondary = {},
+    disallow = {},
+    incompatible = {},
+    curse = false,
+    on_enchant = function() end,
+    requires_tool = false,
+    treasure = false,
+    inv_combat_tab = false,
+    inv_tool_tab = false,
+    tradable = true,
+}
+mcl_enchanting.enchantments["treasure_hunter"] = setmetatable(thunter_def, { __index = enchantment_default })
