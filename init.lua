@@ -1,6 +1,7 @@
 sunken_spoils = {}
 
 local S = core.get_translator(core.get_current_modname())
+dofile(core.get_modpath(core.get_current_modname()) .. "/fishing_override.lua")
 
 mcl_item_entity.register_pickup_achievement("sunken_spoils:abyssil_ingot", "sunken_spoils:FromTheDepths")
 
@@ -20,13 +21,13 @@ sunken_spoils.loot_crates = {
 }
 
 local hardiness_weights = {
-    [2] = { 40, 45, 10,  3,  2 },
-    [3] = { 30, 20, 40,  7,  3 },
-    [4] = { 25, 20, 30, 15,  5 },
+    [2] = { 40, 45, 10, 3, 2 },
+    [3] = { 30, 20, 40, 7, 3 },
+    [4] = { 25, 20, 30, 15, 5 },
     [5] = { 15, 15, 25, 30, 15 },
 }
 
-local WORN = { wear_min = 0 , wear_max = 21845 }
+local WORN = { wear_min = 0, wear_max = 21845 }
 
 
 local function enchanted(itemstring, level)
@@ -59,11 +60,11 @@ sunken_spoils.forest_crate_contents = {
 
 sunken_spoils.wooden_crate_contents = {
     { itemstring = "mcl_core:clay" },
-    { itemstring = "mcl_mobitems:leather"  },
+    { itemstring = "mcl_mobitems:leather" },
     { itemstring = "mcl_raw_ores:raw_iron" },
-    { itemstring = "mcl_copper:raw_copper"},
+    { itemstring = "mcl_copper:raw_copper" },
     { itemstring = "mcl_core:coal_lump" },
-    { itemstring = "mcl_trees:tree_oak"},
+    { itemstring = "mcl_trees:tree_oak" },
     { itemstring = "mcl_core:sand" },
 }
 
@@ -224,7 +225,8 @@ core.register_node("sunken_spoils:iron_crate", {
 core.register_node("sunken_spoils:diamond_crate", {
     description = S("Diamond Crate"),
     _tt_help = S("Right-click to open and receive loot"),
-    _doc_items_longdesc = S("An old Diamond crate filled with loot. Right-click to crack it open and claim its contents."),
+    _doc_items_longdesc = S(
+        "An old Diamond crate filled with loot. Right-click to crack it open and claim its contents."),
     tiles = {
         "diamond_crate.png",
         "diamond_crate.png",
@@ -276,8 +278,9 @@ core.register_node("sunken_spoils:forest_crate", {
 
 -- Fishing rod logic
 
-local fish = minetest.registered_items["mcl_fishing:fishing_rod"].on_place
 local def = minetest.registered_items["mcl_fishing:fishing_rod"]
+def.on_place = mcl_fishing_override.fish
+def.on_secondary_use = mcl_fishing_override.fish
 
 -- Add the new rod_hardiness group to default fishing rod
 if def then
@@ -297,7 +300,7 @@ local function build_crate_weights(w)
     }
 end
 
-mcl_fishing.register_on_catch(function(rod, player, pos, item)
+mcl_fishing_override.register_on_catch(function(rod, player, pos, item)
     local item_name = item:get_name()
     local player_name = player:get_player_name()
     local rod_name = rod:get_name()
@@ -328,16 +331,10 @@ mcl_fishing.register_on_catch(function(rod, player, pos, item)
         else
             core.add_item(pos, item)
         end
-		awards.unlock(player:get_player_name(), "sunken_spoils:LootCrates")
+        awards.unlock(player:get_player_name(), "sunken_spoils:LootCrates")
     end
-
-    -- minetest.chat_send_player(player_name, "You caught: " .. val)
+    --minetest.chat_send_player(player_name, "You caught: " .. item_name)
 end)
-
-local function crate_fish(itemstack, player, pointed_thing)
-    local result = fish(itemstack, player, pointed_thing)
-    return result
-end
 
 
 core.register_tool("sunken_spoils:copper_fishing_rod", {
@@ -351,8 +348,8 @@ core.register_tool("sunken_spoils:copper_fishing_rod", {
     wield_image = "copper_fishing_rod.png^[transformFY^[transformR90",
     wield_scale = { x = 1.5, y = 1.5, z = 1 },
     stack_max = 1,
-    on_place = crate_fish,
-    on_secondary_use = crate_fish,
+    on_place = mcl_fishing_override.fish,
+    on_secondary_use = mcl_fishing_override.fish,
     sound = { breaks = "default_tool_breaks" },
     _mcl_uses = 120,
     _mcl_toollike_wield = true,
@@ -369,8 +366,8 @@ core.register_tool("sunken_spoils:iron_fishing_rod", {
     wield_image = "iron_fishing_rod.png^[transformFY^[transformR90",
     wield_scale = { x = 1.5, y = 1.5, z = 1 },
     stack_max = 1,
-    on_place = crate_fish,
-    on_secondary_use = crate_fish,
+    on_place = mcl_fishing_override.fish,
+    on_secondary_use = mcl_fishing_override.fish,
     sound = { breaks = "default_tool_breaks" },
     _mcl_uses = 250,
     _mcl_toollike_wield = true,
@@ -387,8 +384,8 @@ core.register_tool("sunken_spoils:diamond_fishing_rod", {
     wield_image = "diamond_fishing_rod.png^[transformFY^[transformR90",
     wield_scale = { x = 1.5, y = 1.5, z = 1 },
     stack_max = 1,
-    on_place = crate_fish,
-    on_secondary_use = crate_fish,
+    on_place = mcl_fishing_override.fish,
+    on_secondary_use = mcl_fishing_override.fish,
     sound = { breaks = "default_tool_breaks" },
     _mcl_uses = 500,
     _mcl_toollike_wield = true,
@@ -405,12 +402,11 @@ core.register_tool("sunken_spoils:abyssil_fishing_rod", {
     wield_image = "abyssil_fishing_rod.png^[transformFY^[transformR90",
     wield_scale = { x = 1.5, y = 1.5, z = 1 },
     stack_max = 1,
-    on_place = crate_fish,
-    on_secondary_use = crate_fish,
+    on_place = mcl_fishing_override.fish,
+    on_secondary_use = mcl_fishing_override.fish,
     sound = { breaks = "default_tool_breaks" },
     _mcl_uses = 1000,
     _mcl_toollike_wield = true,
 })
-
 dofile(core.get_modpath(core.get_current_modname()) .. "/items.lua")
 dofile(core.get_modpath(core.get_current_modname()) .. "/register.lua")
