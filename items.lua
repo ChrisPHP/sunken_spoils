@@ -43,7 +43,7 @@ core.register_craftitem("sunken_spoils:abyssil_ingot", {
     description = S("Abyssil Ingot"),
     _doc_items_longdesc = S("A rare hardy underwater ingot that can only be found in rare Abyssil crates."),
     inventory_image = "abyssil_ingot.png",
-    groups = { craftitem = 1 },
+    groups = { craftitem = 1, beacon_fuel = 1 },
 })
 
 
@@ -53,7 +53,7 @@ core.register_node("sunken_spoils:abyssilblock", {
     stack_max = 64,
     tiles = { "sunken_spoils_abyssilblock.png" },
     is_ground_content = true,
-    groups = { pickaxey = 4, building_block = 1, material_stone = 1, xp = 0, fire_immune = 1 },
+    groups = { pickaxey = 4, building_block = 1, material_stone = 1, xp = 0, fire_immune = 1, beacon_block = 1 },
     drop = "sunken_spoils:abyssilblock",
     groups = { pickaxey = 4, building_block = 1 },
     sounds = mcl_sounds.node_sound_metal_defaults(),

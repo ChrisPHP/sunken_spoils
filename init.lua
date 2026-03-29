@@ -5,12 +5,6 @@ dofile(core.get_modpath(core.get_current_modname()) .. "/fishing_override.lua")
 
 mcl_item_entity.register_pickup_achievement("sunken_spoils:abyssil_ingot", "sunken_spoils:FromTheDepths")
 
--- Add abyssil block and ingot to support beacons
-minetest.after(0, function()
-    mcl_beacons.register_beaconfuel("sunken_spoils:abyssil_ingot")
-    mcl_beacons.register_beaconblock("sunken_spoils:abyssilblock")
-end)
-
 sunken_spoils.loot_crates = {
     { itemstring = "sunken_spoils:wooden_crate",  weight = 30 },
     { itemstring = "sunken_spoils:copper_crate",  weight = 25 },

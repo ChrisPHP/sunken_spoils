@@ -1,6 +1,5 @@
 local S = core.get_translator(core.get_current_modname())
 
-
 mcl_tools.register_set("abyssil", {
     craftable = true,
     material = "sunken_spoils:abyssil_ingot",
@@ -41,7 +40,15 @@ mcl_tools.register_set("abyssil", {
             full_punch_interval = 1,
             damage_groups = { fleshy = 9 }
         },
-    }
+    },
+    ["hoe"] = {
+        description = S("Abyssil Hoe"),
+        inventory_image = "sunken_spoils_abyssilhoe.png",
+        tool_capabilities = {
+            full_punch_interval = 1,
+            damage_groups = { fleshy = 6 }
+        },
+    },
 })
 
 
@@ -75,10 +82,10 @@ awards.register_achievement("sunken_spoils:CopperRod", {
     description = S("Craft an Copper fishing rod using a stick, two copper ingots and two pieces of string."),
     icon = "copper_fishing_rod.png",
     trigger = {
-		type = "craft",
-		item= "sunken_spoils:copper_fishing_rod",
-		target = 1,
-	},
+        type = "craft",
+        item = "sunken_spoils:copper_fishing_rod",
+        target = 1,
+    },
     type = "Advancement",
     group = "Sunken Spoils",
 })
@@ -88,10 +95,10 @@ awards.register_achievement("sunken_spoils:IronRod", {
     description = S("Craft an iron fishing rod using a stick, two iron ingots and two pieces of string."),
     icon = "iron_fishing_rod.png",
     trigger = {
-		type = "craft",
-		item= "sunken_spoils:iron_fishing_rod",
-		target = 1,
-	},
+        type = "craft",
+        item = "sunken_spoils:iron_fishing_rod",
+        target = 1,
+    },
     type = "Advancement",
     group = "Sunken Spoils",
 })
@@ -101,10 +108,10 @@ awards.register_achievement("sunken_spoils:DiamondRod", {
     description = S("Craft a diamond fishing rod using a stick, two diamond ingots and two pieces of string."),
     icon = "diamond_fishing_rod.png",
     trigger = {
-		type = "craft",
-		item= "sunken_spoils:diamond_fishing_rod",
-		target = 1,
-	},
+        type = "craft",
+        item = "sunken_spoils:diamond_fishing_rod",
+        target = 1,
+    },
     type = "Advancement",
     group = "Sunken Spoils",
 })
@@ -114,10 +121,10 @@ awards.register_achievement("sunken_spoils:ToughestRod", {
     description = S("Craft a abyssil fishing rod using a stick, two abyssil ingots and two pieces of string."),
     icon = "abyssil_fishing_rod.png",
     trigger = {
-		type = "craft",
-		item= "sunken_spoils:abyssil_fishing_rod",
-		target = 1,
-	},
+        type = "craft",
+        item = "sunken_spoils:abyssil_fishing_rod",
+        target = 1,
+    },
     type = "Advancement",
     group = "Sunken Spoils",
 })
