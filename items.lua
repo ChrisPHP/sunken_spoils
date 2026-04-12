@@ -89,6 +89,18 @@ local thunter_def = {
     anvil_item_factor = 4,
     anvil_book_factor = 2,
 }
+local weather_attuned = {
+    name = S("Weather Attuned"),
+    max_level = 1,
+    primary = { fishing_rod = true },
+    weight = 2,
+    description = S("Improves the catch rate of fishing especially during raining weather."),
+    power_range_table = { { 15, 61 }, { 24, 71 }, { 33, 81 } },
+    treasure = true,
+    inv_tool_tab = true,
+    anvil_item_factor = 4,
+    anvil_book_factor = 2,
+}
 local enchantment_default = {
     max_level = 1,
     primary = {},
@@ -104,3 +116,4 @@ local enchantment_default = {
     tradable = true,
 }
 mcl_enchanting.enchantments["treasure_hunter"] = setmetatable(thunter_def, { __index = enchantment_default })
+mcl_enchanting.enchantments["weather_attuned"] = setmetatable(weather_attuned, { __index = enchantment_default })

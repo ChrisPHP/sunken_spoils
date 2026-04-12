@@ -9,6 +9,10 @@ function mcl_fishing_override.register_on_catch(func)
     table.insert(registered_on_catch, func)
 end
 
+function mcl_fishing_override.register_wait_time_modifier(func)
+    table.insert(wait_time_modifiers, func)
+end
+
 local bobbers = {}
 
 local bobber_def = minetest.registered_entities["mcl_fishing:bobber_entity"]
@@ -211,7 +215,11 @@ function bobber_def:on_step(dtime)
         elseif not self._waittime or self._waittime <= 0 then
             -- wait for random number of ticks.
             local lure_enchantment = mcl_enchanting.get_enchantment(player:get_wielded_item(), "lure") or 0
+            local weather_attuned = mcl_enchanting.get_enchantment(player:get_wielded_item(), "weather_attuned") or 0
             local rain_mod = mcl_weather.rain.raining and mcl_weather.has_rain(self.object:get_pos()) and 0.75 or 1
+            if weather_attuned > 0 then
+                rain_mod = rain_mod - 0.20
+            end
             local reduced = lure_enchantment * 5
             local wait_params = {
                 min = math.max(0, 5 - reduced),
